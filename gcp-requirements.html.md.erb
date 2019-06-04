@@ -23,34 +23,45 @@ and create a load balancer to access the PKS API.
 
 ###<a id='ops-man'></a> Install and Configure Ops Manager
 
-To install an Ops Manager version that is compatible with the <%= vars.product_short %> version you intend to use,
-follow the instructions in the corresponding version of the Ops Manager documentation.
-
-<p class="note"><strong>Note</strong>: The topics below provide the manual procedures for deploying Ops Manager on GCP, not the Terraform procedures. The manual procedures are the currently supported path for deploying Ops Manager on GCP for use with <%= vars.product_short %>.</p>
+To install an Ops Manager version that is compatible with your <%= vars.product_short %> version,
+follow either the manual or Terraform instructions in the corresponding version of the Ops Manager documentation.
 
 <table>
   <tr>
     <th>Version</th>
-    <th></th>
+    <th>Manual Procedure</th>
+    <th>Terraform Procedure</th>
   </tr>
   <tr>
-    <td>Ops Manager v2.4</td>
+    <td>Ops Manager 2.4</td>
     <td>
-      <ul>
-        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/prepare-env-manual.html">Preparing to Deploy PCF on GCP</a></li>
-        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/deploy-manual.html">Deploying BOSH and Ops Manager to GCP</a></li>
-        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/config-manual.html">Configuring BOSH Director on GCP</a></li>
-      </ul>
+      <ol>
+        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/prepare-env-manual.html">Preparing to Deploy Ops Manager on GCP Manually</a></li>
+        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/deploy-manual.html">Deploying Ops Manager on GCP Manually</a></li>
+        <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/config-manual.html">Configuring BOSH Director on GCP Manually</a></li>
+      </ol>
     </td>
+    <td>
+    <ol>
+      <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/prepare-env-terraform.html">Deploying Ops Manager on GCP Using Terraform</a></li>
+      <li><a href="https://docs.pivotal.io/pcf/om/2-4/gcp/config-terraform.html">Configuring BOSH Director on GCP Using Terraform</a></li>
+    </ol>
+  </td>
   </tr>
   <tr>
-    <td>Ops Manager v2.5</td>
+    <td>Ops Manager 2.5</td>
     <td>
-      <ul>
+      <ol>
         <li><a href="https://docs.pivotal.io/pcf/om/2-5/gcp/prepare-env-manual.html">Preparing to Deploy PCF on GCP</a></li>
         <li><a href="https://docs.pivotal.io/pcf/om/2-5/gcp/deploy-manual.html">Deploying BOSH and Ops Manager to GCP</a></li>
         <li><a href="https://docs.pivotal.io/pcf/om/2-5/gcp/config-manual.html">Configuring BOSH Director on GCP</a></li>
-      </ul>
+      </ol>
+    </td>
+    <td>
+      <ol>
+        <li><a href="https://docs.pivotal.io/pcf/om/2-5/gcp/prepare-env-terraform.html">Deploying Ops Manager on GCP Using Terraform</a></li>
+        <li><a href="https://docs.pivotal.io/pcf/om/2-5/gcp/config-terraform.html">Configuring BOSH Director on GCP Using Terraform</a></li>
+      </ol>
     </td>
   </tr>
 </table>
@@ -63,13 +74,14 @@ in [Creating Service Accounts in GCP for <%= vars.product_short %>](gcp-service-
 
 ###<a id='lb'></a> Create a Load Balancer for the PKS API
 
-Before you install <%= vars.product_short %>, you must create an external TCP load balancer so that you can access the
-PKS API from outside the network. This load balancer allows you to run `pks` commands from your
-local workstation. You must create the load balancer before you install <%= vars.product_short %>, and then complete the
-load balancer configuration after you install <%= vars.product_short %>.
+If you are installing <%= vars.product_short %> manually, you must create an external TCP load balancer before you installation. This load balancer enables you to access the PKS API from outside the network and run `pks` commands from your local workstation. 
 
-To create a load balancer in GCP, follow the procedures in
+If you are installing <%= vars.product_short %> using Terraform, Terraform creates the PKS API load balancer. This means you do not need to create the load balancer yourself. 
+
+To create a load balancer in GCP, do the procedures in
 [Creating a GCP Load Balancer for the PKS API](./gcp-api-load-balancer.html).
+
+Regardless of if you are installing <%= vars.product_short %> manually or using Terraform, after you install <%= vars.product_short %>, you still must complete the load balancer configuration. To complete the load balacer configuration, do the procedure in [Create a Network Tag for the Firewall Rule](./gcp-api-load-balancer.html#tag).
 
 ##<a id='resources'></a> Resource Requirements
 
