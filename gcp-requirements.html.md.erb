@@ -74,14 +74,21 @@ in [Creating Service Accounts in GCP for <%= vars.product_short %>](gcp-service-
 
 ###<a id='lb'></a> Create a Load Balancer for the PKS API
 
-If you are installing <%= vars.product_short %> manually, you must create an external TCP load balancer before you installation. This load balancer enables you to access the PKS API from outside the network and run `pks` commands from your local workstation. After you install <%= vars.product_short %>, you must complete the load balancer configuration. 
+**If you are installing <%= vars.product_short %> manually:**
+You must create an external TCP load balancer before you installation.
+This load balancer enables you to access the PKS API from outside the network
+and run `pks` commands from your local workstation.
+After you install <%= vars.product_short %>, you must complete the load balancer configuration.
 
 To create a load balancer in GCP, do the procedures in
-[Creating a GCP Load Balancer for the PKS API](./gcp-api-load-balancer.html). 
-To complete the load balancer configuration, do the procedure in [Create a Network Tag for the Firewall Rule](./gcp-api-load-balancer.html#tag).
+[Creating a GCP Load Balancer for the PKS API](./gcp-api-load-balancer.html).
+To complete the load balancer configuration,
+do the procedure in [Create a Network Tag for the Firewall Rule](./gcp-api-load-balancer.html#tag).
 
-If you are installing <%= vars.product_short %> using Terraform, Terraform creates the PKS API load balancer. This means you do not need to create the load balancer manually. After you install <%= vars.product_short %>, you must 
-configure the PKS API load balancer back end to use the PKS VM. [NEED INSTRUCTIONS FOR THIS BESIDES](.//gcp-cluster-load-balancer.html#backend).
+**If you are installing <%= vars.product_short %> using Terraform:**
+Terraform creates the PKS API load balancer.
+This means you do not need to create the load balancer manually. 
+After you install <%= vars.product_short %>, [DO YOU HAVE TO DO A THING?]
 
 
 
@@ -121,7 +128,7 @@ Installing Ops Manager and <%= vars.product_short %> requires the following virt
 
 <h3> Kubernetes Cluster Resources </h3>
 
-Each Kubernetes cluster provisioned through <%= vars.product_short %> deploys the VMs listed below. 
+Each Kubernetes cluster provisioned through <%= vars.product_short %> deploys the VMs listed below.
 
 If you deploy more than one Kubernetes cluster, you must scale your allocated resources appropriately.
 
