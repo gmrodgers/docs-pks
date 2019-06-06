@@ -68,7 +68,7 @@ follow either the manual or Terraform instructions in the corresponding version 
 
 ###<a id='k8s-accounts'></a> Create Service Accounts for Kubernetes
 
-After you install and configure Ops Manager, you must create service accounts for Kubernetes master
+If you are installing <%= vars.product_short %> manually, after you install and configure Ops Manager, you must create service accounts for Kubernetes master
 and worker node VMs in your <%= vars.product_short %> deployment. To create the service accounts, follow the procedures
 in [Creating Service Accounts in GCP for <%= vars.product_short %>](gcp-service-accounts.html).
 
@@ -82,8 +82,6 @@ To complete the load balancer configuration, do the procedure in [Create a Netwo
 
 If you are installing <%= vars.product_short %> using Terraform, Terraform creates the PKS API load balancer. This means you do not need to create the load balancer manually. After you install <%= vars.product_short %>, you must 
 configure the PKS API load balancer back end to use the PKS VM. [NEED INSTRUCTIONS FOR THIS BESIDES](.//gcp-cluster-load-balancer.html#backend).
-
-
 
 
 ##<a id='resources'></a> Resource Requirements
