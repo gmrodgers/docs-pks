@@ -53,7 +53,7 @@ To configure your Kubernetes cloud provider settings, follow the procedures belo
 
     <img src="images/cloud-gcp.png" alt="GCP pane configuration" width="325">
 
-    1. Enter your **GCP Project Id**, which is the name of the deployment in your Ops Manager environment.
+    1. Enter your **GCP Project ID**, which is the name of the deployment in your Ops Manager environment.
     To find the project ID, go to **BOSH Director for GCP** > **Google Config** > **Project ID**.
 
     1. Enter your **VPC Network**, which is the VPC network name for your Ops Manager environment.
@@ -65,7 +65,7 @@ To configure your Kubernetes cloud provider settings, follow the procedures belo
       in _Creating Service Accounts in GCP for <%= vars.product_short %>_.
       + **If you are installing  <%= vars.product_short %> with Terraform:** Retrieve the
       master node service account ID by running `terraform output` and locating the value for
-      `SOME VAR`.
+      `pks_master_node_service_account_email`.
 
     1. Enter your **GCP Worker Service Account ID**.
     This is the email address associated with the worker node service account.
@@ -74,7 +74,7 @@ To configure your Kubernetes cloud provider settings, follow the procedures belo
       in _Creating Service Accounts in GCP for <%= vars.product_short %>_.
       + **If you are installing  <%= vars.product_short %> with Terraform:** Retrieve the
       worker node service account ID by running `terraform output` and locating the value for
-      `SOME VAR`.
+      `pks_worker_node_service_account_email`.
 
 1. Click **Save**.
 
@@ -119,15 +119,22 @@ follow the steps below:
 
 1. Select **Resource Config**.
 
-1. Enter the name of your PKS API load balancer by doing one of the following:
-    + **If you are installing <%= vars.product_short %> manually:** In the **Load Balancers** column,
-      enter a name for your PKS API load balancer that begins with `tcp:`.<br>
-      For example, `tcp:pks-api`, where `pks-api` is the name
-      that you configured in the [Create a Load Balancer](gcp-api-load-balancer.html#create-lb)
-      section of _Creating a GCP Load Balancer for the PKS API_.<br><br>
-    + **If you are installing <%= vars.product_short %> using Terraform:**
-      Enter [WHATEVER TERRAFORM VAR YOU NEED]
+1. In the **Load Balancers** column, enter the name of your PKS API load balancer, prefixed with `tcp:`.
+    For example:
 
+      ```
+    tcp:PKS-API-LB
+      ```
+    Where `PKS-API-LB` is the name of your PKS API load balancer.<br><br>
+    
+    You can find the name of your PKS API load balancer by doing one of the following:
+    + **If you are installing <%= vars.product_short %> manually:** The name of your PKS API load 
+    balancer is the name you configured in the [Create a Load Balancer](gcp-api-load-balancer.html#create-lb)
+    section of _Creating a GCP Load Balancer for the PKS API_.
+    + **If you are installing <%= vars.product_short %> using Terraform:** The name of your PKS API 
+    load balancer is the value of `pks_lb_backend_name` from `terraform output`.
+    
+  
       <%= partial 'lb-resource-config' %>
 
 1. (Optional) Edit other resources used by the **Pivotal Container Service** job.
@@ -159,7 +166,7 @@ resources:
 
 ## <a id='loadbalancer-pks-api'></a> Step 5: Configure External Load Balancer
 
-Follow the procedure in the [Create a Network Tag for the Firewall Rule](gcp-api-load-balancer.html#tag) section of _Creating a GCP Load Balancer for the PKS API_.
+If you are installing <%= vars.product_short %> manually, follow the procedure in the [Create a Network Tag for the Firewall Rule](gcp-api-load-balancer.html#tag) section of _Creating a GCP Load Balancer for the PKS API_.
 
 ## <a id='clis'></a> Step 6: Install the PKS and Kubernetes CLIs
 
