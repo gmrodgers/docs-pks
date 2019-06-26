@@ -9,6 +9,7 @@ This topic describes how platform operators can monitor and retrieve metrics fro
 master/etcd node VMs in <%= vars.product_full %> deployments.
 
 ## <a id="overview"></a>Overview
+<%# What is modifying what in the below sentence? What is valuable about this info?%>
 etcd is an open source distributed key value store.
 You can monitor Kubernetes cluster health by using metrics from etcd.
 In <%= vars.product_short %>, etcd is co-located on Kubernetes master node VMs.
@@ -25,44 +26,39 @@ Plans section of _Installing <%= vars.product_short %>_ for your IaaS:
 * [Amazon Web Services (AWS)](installing-pks-aws.html#plans)
 * [Azure](installing-pks-azure.html#plans)
 
-<%# I CHANGED THIS QUITE A BIT
 
-## <a id="monitor"></a>Monitor etcd
-PKS includes the ability to configure an agent that 
-reads from the the `/metric` endpoint 
-as well as optionally read from an installed node exporter.
+## <a id="collect"></a>Collect Metrics Using etcd 
+
+<%# What exactly is the agent doing? Where do they find it? Does it have a name? %>
+
+You can configure an agent to read from the the `/metric` endpoint exposed by the etcd VM.
+You can then connect a third-party monitoring service to etcd  to retrieve cluster information
+from the endpoint. You can also configure the agent to read infrastructure metrics from the [Node Exporter](link), if installed.
+
+<%# What is a node exporter? Does it also provide metrics? An alternative to the /metrics endpoint? %>
 
 For more information about monitoring etcd,
 see [Monitoring etcd](https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/monitoring.md)
-on GitHub. %>
-
-## <a id="monitor"></a>  Monitoring etcd
-
-etcd VMs exposes metrics on a `/metrics` endpoint.
-You can connect a third-party monitoring service to etcd  to retrieve cluster information
-from the endpoint.
+on GitHub. For example, the etcd documentation recommends using the open source Prometheus monitoring service.
+For more information about using Prometheus, see the
+[Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
 
 <%#LINK TO THE AVAILABLE METRICS%>
 
-For example, the etcd documentation recommends using the open source Prometheus monitoring service.
-For more information, see the
-[Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
-
 To monitor etcd using a monitoring service, you must do the following:
 
-1. Enable node exporter (optional but recommended)
+1. Enable node exporter (optional but recommended) [LINK](link).
+<%#steps?%>
+1. [Using TOML]()
 1. Configure [telegraf within the tile](https://github.com/influxdata/telegraf/tree/1.11.0/plugins/outputs). 
-1. Apply Changes
+1. Apply Changes.
 
-### <a id="toml"></a> Using TOML. 
+### <a id="toml"></a> Create a Configuration File 
 
 <%# INTRO %>
 
-Create a TOML configuration for your desired output plugin. 
-You can find samples within the [telgraf repo](https://github.com/influxdata/telegraf/tree/1.11.0/plugins/outputs)
-or try out the following sample below. 
+Create a configuration file in TOML format for your output plugin. TOML configuration files consist of key-value pairs. You can find samples within the [telgraf repo](https://github.com/influxdata/telegraf/tree/1.11.0/plugins/outputs) or use the following sample: 
 
-Sample output plugin 
 ```
 [[outputs.http]]
    url="https://example.com"
@@ -70,9 +66,11 @@ Sample output plugin
    data_format="JSON"
 [[processors.override]]
   [processors.override.tags]
+   'Director Name' = 'Adam Jones'
     TAG-KEY = "TAG-VALUE"
 ```
 
+In this sample plugin configuration, the "Director Name" tag is assigned the value "Adam Jones" who is the BOSH Director. You can define any information as tag key-value pairs to make metrics results more human-readable. Some additional key-value pairs could include:
 
 <%# INFO ABOUT WHY YOU SHOULD USE TAGS %>
 
@@ -85,25 +83,29 @@ Sample output plugin
       <td>Director Name</td>
       <td>Use this to assign a recognizeable name to your bosh director</td>
     </tr>
+    <tr>
+      <td>Host?</td>
+      <td>Hostname?</td>
+    </tr>
 </table>
 
-### <a id="connect"></a> Configure telegraf within the tile
+### <a id="connect"></a> Configure Telegraf in the Tile
 
 To connect a monitoring service to etcd, do the following:
 
 1. From the **Ops Manager Installation Dashboard**, navigate to **<%= vars.product_tile %>** >
 **Settings** > **Monitoring**.
 
-1. Enable the Node Exporter on the master node. This will provide you with additional infrastructure metrics
-which will be available on the localhost of that machine. 
+1. Enable the Node Exporter on the master node. 
+  The Node Exporter provides additional infrastructure metrics that are then available on the localhost of the master node. 
 
-1. For **Setup Telegraf Outputs**, enter the Telegraf outputs TOML and tags for your montiring service.
+1. For **Setup Telegraf Outputs**, enter the contents from the [TOML configuration file](#toml) and tags for your monitoring service. 
 If you do not want to output any BOSH metrics, leave the default `[[outputs.discard]]` value.
-For information about TOML configurations, see [Create BOSH Metrics Sink Resource](#toml) above.
+For information about TOML configurations, see [Create a Configuration FIle](#toml) above.
 
 1. Click **Save**
 
-1. Apply Changes
+1. Click **Apply Changes**.
 
 ## <a id="errors"></a>Troubleshoot etcd
 
