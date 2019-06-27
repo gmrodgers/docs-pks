@@ -3,16 +3,16 @@ title: Configuring Okta as an Identity Provider
 owner: Identity
 ---
 
-This topic explains how to configure Okta as your identity provider by configuring
-SAML integration in <%= vars.product_full %>.
-
-## <a id='prerequisites'></a> Overview
-
-You can configure Okta to designate <%= vars.product_short %> as a service provider.
+This topic explains how to configure single sign-on (SSO) between Okta and <%= vars.product_full %>.
 
 ## <a id='prerequisites'></a> Prerequisites
 
-To configure Okta 
+To configure Okta to designate <%= vars.product_short %> as a service provider,
+you must have the following:
+
++ An Okta Single-Sign On admin account
++ An app with SAML 2.0 enabled in Okta
+
 
 ## <a id='configure-saml'></a> Configure SAML in Okta
 
@@ -21,7 +21,7 @@ To configure Okta as a SAML identity provider for  <%= vars.product_short %>, do
 
 1. Log in to Okta as an admin.
 
-1. Navigate to your app and click the **Sign On** tab.
+1. Navigate to your app and click **Sign On**.
 
 1. Under **Settings**, click **Edit**, and select **SAML 2.0**.
 
@@ -44,7 +44,8 @@ To configure Okta as a SAML identity provider for  <%= vars.product_short %>, do
 		<tr>
 			<td><strong>Single sign on URL</strong></td>
 			<td>Enter <code>https<span>:</span>//PKS-API:8443/saml/SSO/alias/PKS-API<span>:</span>8443</code>.
-				<br>For example: <code>https<span>:</span>//api.pks.example.com<span>:</span>8443/saml/SSO/alias/api.pks.example.com<span>:</span>8443</code></td>
+				<br>For example:
+				<code>https<span>:</span>//api.pks.example.com<span>:</span>8443/saml/SSO/alias/api.pks.example.com<span>:</span>8443</code></td>
 		</tr>
 
 		<tr>
@@ -60,18 +61,22 @@ To configure Okta as a SAML identity provider for  <%= vars.product_short %>, do
 
 		<tr>
 			<td><strong>Name ID format</strong></td>
-			<td>Select a name identifier format. For example: <code>EmailAddress</code></td>
+			<td>Select a name identifier format.
+				By default, <%= vars.product_short %> uses <code>EmailAddress</code>.</td>
 		</tr>
 
 		<tr>
 			<td><strong>Attribute Statements</strong></td>
-			<td>Specify any attribute statements that you want to map to users in the ID token.</td>
+			<td>Enter any attribute statements that you want to map to users in the ID token.<br>
+				In <%= vars.product_short %> you can define first name, last name, and email attributes.
+			</td>
 		</tr>
 
 		<tr>
 			<td><strong>Group Attribute Statements</strong></td>
-			<td>Specify any group attribute statements that you want to map to users in the ID token.
-				These are groups that users belong to in Okta.
+			<td>Enter any group attribute statements that you want to map to users in the ID token.
+				In Okta, these are groups that users belong to.
+				You can use filters to define which groups are passed to <%= vars.product_short %>.
 			</td>
 		</tr>
 
@@ -82,10 +87,17 @@ To configure Okta as a SAML identity provider for  <%= vars.product_short %>, do
 
 1. Click the **Next** button followed by the **Finish** button.
 
+1. (Optional) If you want to enable multi-factor authentication (MFA), you can add a SSO policy rule to your app.
+		To enable MFA, do the following:
+
+	1. Click **Add Rule**
+
+
 1. Click **Identity Provider metadata** to download the metadata,
 or copy and save the link address of the **Identity Provider metadata**.
-You use this Okta metadata when you configure SAML in the <%= vars.product_tile %> tile.
-See
-[Configure SAML as an Identity Provider](/runtimes/pks/1-5/installing-pks-azure.html#configure-saml).
 
 	<%= image_tag '../images/id_provider_metadata.png' %>
+
+1. Use the Okta metadata you retrieved in the above step to configure SAML in the <%= vars.product_tile %> tile.
+See
+[Configure SAML as an Identity Provider](/runtimes/pks/1-5/installing-pks-azure.html#configure-saml).
